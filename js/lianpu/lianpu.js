@@ -11,16 +11,14 @@ export default class LianPu extends Sprite {
         var ram = util.getStart(row, column)
         this.x = ram[0]
         this.y = ram[1]
-        this.back = false
+        this.src = src
+        this.backsrc = "images/lianpu-" + util.random(1,8) + "-back.png"
         this.data = data
-        this.backup = util.random(1,8)
         this.time = new Date().getTime() / 1000
+        this.touched = false;
     }
 
-    updateImg(data) {
-        this.data = data
-        this.img.src = "images/lianpu-" + data + "-back.png"
-    }
+
 
     draw(ctx) {
         if (new Date().getTime() / 1000 - this.time > 10) {

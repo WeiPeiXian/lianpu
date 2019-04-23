@@ -3,15 +3,12 @@ import GameInfo from './runtime/gameinfo'
 import Music from './runtime/music'
 import DataBus from './databus'
 import Util from './base/util.js'
-import LianPu from "./lianpu/lianpu";
 
 let ctx = canvas.getContext('2d')
 let databus = new DataBus()
 let util = new Util()
 const width = window.innerWidth
 const height = window.innerHeight
-let time = new Date().getTime()
-var back = [[1, 2, 3, 2, 4, 1], [3, 2, 1, 3, 4, 1], [2, 2, 3, 4, 1, 2], [3, 3, 1, 2, 4, 4], [3, 2, 3, 1, 4, 1], [4, 1, 3, 2, 3, 2]]
 /**
  * 游戏主函数
  */

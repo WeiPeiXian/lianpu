@@ -4,11 +4,12 @@ import Util from './base/util.js'
 
 let util = new Util()
 let instance
+
 /**
  * 全局状态管理器
  */
 
-function rnd(start, end){
+function rnd(start, end) {
     return Math.floor(Math.random() * (end - start) + start)
 }
 
@@ -20,12 +21,10 @@ export default class DataBus {
         instance = this
         this.pool = new Pool()
         this.data = [[], [], [], [], [], []]
-        this.time = [[], [], [], [], [], []]
-        this.back = [[1, 2, 3, 2, 4, 1], [3, 2, 1, 3, 4, 1], [2, 2, 3, 4, 1, 2], [3, 3, 1, 2, 4, 4], [3, 2, 3, 1, 4, 1], [4, 1, 3, 2, 3, 2]]
+        this.time = new Date().getTime() / 1000
     }
 
     reset() {
-        this.frame = 0
         this.score = 0
         this.touchrow = 100
         this.touchcolumn = 100
@@ -40,7 +39,7 @@ export default class DataBus {
                 this.time[row][column] = new Date().getTime() / 1000
                 var src = "images/lianpu-" + x + ".png"
                 var lianpu = new LianPu(src, row, column, x)
-                this.pool.setLianPu(row,column,lianpu)
+                this.pool.setLianPu(row, column, lianpu)
                 this.lianpus.push(lianpu)
             }
         }

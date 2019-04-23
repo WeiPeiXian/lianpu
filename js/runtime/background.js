@@ -24,48 +24,39 @@ var MyConstants = {
 }
 
 export default class BackGround extends Sprite {
-    constructor(ctx) {
+    constructor() {
         super(BG_IMG_SRC, BG_WIDTH, BG_HEIGHT)
-        this.top = 0
-        this.back = [[1, 2, 3, 2, 4, 1], [3, 2, 1, 3, 4, 1], [2, 2, 3, 4, 1, 2], [3, 3, 1, 2, 4, 4], [3, 2, 3, 1, 4, 1], [4, 1, 3, 2, 3, 2]]
-
     }
 
 
-    render(ctx,x,y) {
+    render(ctx, x, y) {
         var picbeginX;
         var picbeginY;
         var picendX;
         var picendY;
-        let grd = ctx.createLinearGradient(0, MyConstants.BeginY,0, MyConstants.PicHeight)
-        grd.addColorStop(0, '#87CEEB')
-        ctx.fillStyle = grd
-        ctx.fillRect(0,0,window.innerWidth,60)
-        for (var row = 0; row < 6; row++) {
-            for (var column = 0; column < 6; column++) {
-                picbeginX = MyConstants.BeginX + row * (MyConstants.PicWidth + MyConstants.PicMargin);  //数学问题，其实就是从左上角开始一个个定义好一个个图标的起点坐标
-                picbeginY = MyConstants.BeginY + column * (MyConstants.PicHeight + MyConstants.PicMargin);
-                picendX = picbeginX + MyConstants.PicWidth;
-                picendY = MyConstants.BeginY + MyConstants.PicHeight;
-                let grd = ctx.createLinearGradient(0, MyConstants.BeginY,0, MyConstants.PicHeight)
-                if (x=== row && y === column) {
-                    grd.addColorStop(1, '#87CEEB')
-                }
-                grd.addColorStop(0, '#FFFFFF')
-                ctx.fillStyle = grd
-                ctx.fillRect(picbeginX, picbeginY, MyConstants.PicWidth, MyConstants.PicHeight);
-            }
-        }
-        // ctx.drawImage(
-        //     this.img,
-        //     0,
-        //     0,
-        //     this.width,
-        //     this.height,
-        //     0,
-        //     0,
-        //     screenWidth,
-        //     screenHeight
-        // )
+        let grd1 = ctx.createLinearGradient(0, MyConstants.BeginY, 0, MyConstants.PicHeight)
+        grd1.addColorStop(0, '#87CEEB')
+        ctx.fillStyle = grd1
+        ctx.fillRect(0, 0, screenWidth, 60)
+        let grd2 = ctx.createLinearGradient(0, MyConstants.BeginY, 0, MyConstants.PicHeight)
+        grd2.addColorStop(1, '#FFFFFF')
+        ctx.fillStyle = grd2
+        ctx.fillRect(0, 60, screenWidth, screenHeight - 60)
+
+        // for (var row = 0; row < 6; row++) {
+        //     for (var column = 0; column < 6; column++) {
+        //         picbeginX = MyConstants.BeginX + row * (MyConstants.PicWidth + MyConstants.PicMargin);  //数学问题，其实就是从左上角开始一个个定义好一个个图标的起点坐标
+        //         picbeginY = MyConstants.BeginY + column * (MyConstants.PicHeight + MyConstants.PicMargin);
+        //         picendX = picbeginX + MyConstants.PicWidth;
+        //         picendY = MyConstants.BeginY + MyConstants.PicHeight;
+        //         let grd = ctx.createLinearGradient(0, MyConstants.BeginY, 0, MyConstants.PicHeight)
+        //         if (x === row && y === column) {
+        //             grd.addColorStop(1, '#87CEEB')
+        //         }
+        //         grd.addColorStop(0, '#FFFFFF')
+        //         ctx.fillStyle = grd
+        //         ctx.fillRect(picbeginX, picbeginY, MyConstants.PicWidth, MyConstants.PicHeight);
+        //     }
+        // }
     }
 }
