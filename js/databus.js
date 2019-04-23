@@ -9,10 +9,6 @@ let instance
  * 全局状态管理器
  */
 
-function rnd(start, end) {
-    return Math.floor(Math.random() * (end - start) + start)
-}
-
 export default class DataBus {
     constructor() {
         if (instance)
@@ -20,40 +16,30 @@ export default class DataBus {
 
         instance = this
         this.pool = new Pool()
-        this.data = [[], [], [], [], [], []]
-        this.time = new Date().getTime() / 1000
-    }
-
-    reset() {
-        this.score = 0
-        this.touchrow = 100
-        this.touchcolumn = 100
-        this.bullets = []
         this.lianpus = []
-        this.animations = [] //动画
-        this.gameOver = false
+        this.daixiao = []
         for (var row = 0; row < 6; row++) {
             for (var column = 0; column < 6; column++) {
-                var x = util.random(1, 3)
-                this.data[row][column] = x
-                this.time[row][column] = new Date().getTime() / 1000
-                var src = "images/lianpu-" + x + ".png"
-                var lianpu = new LianPu(src, row, column, x)
-                this.pool.setLianPu(row, column, lianpu)
+                var x = util.random(1, 8)
+                var src = "images/lianpu-" + x + ".jpg"
+                var lianpu = new LianPu({src: src, row: row, column: column}, x)
+                this.pool.setLianPu(row, column,lianpu)
                 this.lianpus.push(lianpu)
             }
         }
     }
 
-    /**
-     * 回收子弹，进入对象池
-     * 此后不进入帧循环
-     */
-    removeBullets(bullet) {
-        let temp = this.bullets.shift()
-
-        temp.visible = false
-
-        this.pool.recover('bullet', bullet)
+    reset() {
+        this.time = new Date().getTime() / 1000
+        this.score = 0
+        this.lianpus.forEach((lianpu) => {
+            lianpu.reset()
+        })
+        this.touchrow = 100
+        this.touchcolumn = 100
+        this.animations = [] //动画
+        this.gameOver = false
     }
+
 }
+

@@ -24,7 +24,7 @@ export default class Util {
         return [x, y]
     }
 
-    getXY = function (x, y) {
+    getRC = function (x, y) {
         var m = Math.floor(x / (pictureWidth + 2))
         var n = Math.floor((y-60)/ (pictureHeigth + 2))
         return [n, m]

@@ -2,17 +2,28 @@ const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight
 
 let atlas = new Image()
-atlas.src = 'images/undefined.png'
+atlas.src = 'images/common.jpg'
 
 export default class GameInfo {
-    renderGameScore(ctx, score) {
+    renderGameScore(ctx, score, time) {
         ctx.fillStyle = "#333333"
         ctx.font = "20px Arial"
         ctx.fillText(
-            score,
+            "score : " + score,
             10,
             30
         )
+
+        ctx.fillStyle = "#333333"
+        ctx.font = "20px Arial"
+        ctx.fillText(
+            "剩余实间 : ",
+            0.75 * screenWidth - 140,
+            50
+        )
+        ctx.fillStyle = "#FF6100";
+        ctx.fillRect(0.75 * screenWidth, 40 , 0.2 * screenWidth * time / 30 , 10);
+
     }
 
     renderGameOver(ctx, score) {

@@ -5,7 +5,7 @@ var util = new Util()
 const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight
 
-const BG_IMG_SRC = 'images/undefined.jpg'
+const BG_IMG_SRC = 'images/common.jpg'
 const BG_WIDTH = 512
 const BG_HEIGHT = 512
 /**
@@ -42,6 +42,10 @@ export default class BackGround extends Sprite {
         grd2.addColorStop(1, '#FFFFFF')
         ctx.fillStyle = grd2
         ctx.fillRect(0, 60, screenWidth, screenHeight - 60)
+
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, screenHeight - MyConstants.PicHeight -2 , screenWidth, 2);
+
 
         // for (var row = 0; row < 6; row++) {
         //     for (var column = 0; column < 6; column++) {
