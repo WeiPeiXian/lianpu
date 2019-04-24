@@ -1,19 +1,16 @@
 import Sprite from '../base/sprite'
-import Util from '../base/util'
 
-var util = new Util()
-const screenWidth = window.innerWidth
-const screenHeight = window.innerHeight
+const screenWidth = window.innerWidth;
+const screenHeight = window.innerHeight;
 
-const BG_IMG_SRC = 'images/common.jpg'
-const BG_WIDTH = 512
-const BG_HEIGHT = 512
+const BG_IMG_SRC = 'images/common.jpg';
+const BG_WIDTH = 512;
+const BG_HEIGHT = 512;
 /**
  * 游戏背景类
  * 提供update和render函数实现无限滚动的背景功能
  */
-
-var MyConstants = {
+const MyConstants = {
     PicWidth: (screenWidth - 10) / 6, //图片的宽
     PicHeight: (screenHeight - 70) / 6, //图片的长
     PicMargin: 2, //每个图片之间的距离
@@ -21,7 +18,7 @@ var MyConstants = {
     PicCols: 6,
     BeginX: 0, //开始画图的x坐标
     BeginY: 60, //开始画图的y坐标
-}
+};
 
 export default class BackGround extends Sprite {
     constructor() {
@@ -30,18 +27,18 @@ export default class BackGround extends Sprite {
 
 
     render(ctx, x, y) {
-        var picbeginX;
-        var picbeginY;
-        var picendX;
-        var picendY;
-        let grd1 = ctx.createLinearGradient(0, MyConstants.BeginY, 0, MyConstants.PicHeight)
-        grd1.addColorStop(0, '#87CEEB')
-        ctx.fillStyle = grd1
-        ctx.fillRect(0, 0, screenWidth, 60)
-        let grd2 = ctx.createLinearGradient(0, MyConstants.BeginY, 0, MyConstants.PicHeight)
-        grd2.addColorStop(1, '#FFFFFF')
-        ctx.fillStyle = grd2
-        ctx.fillRect(0, 60, screenWidth, screenHeight - 60)
+        // var picbeginX;
+        // var picbeginY;
+        // var picendX;
+        // var picendY;
+        let grd1 = ctx.createLinearGradient(0, MyConstants.BeginY, 0, MyConstants.PicHeight);
+        grd1.addColorStop(0, '#87CEEB');
+        ctx.fillStyle = grd1;
+        ctx.fillRect(0, 0, screenWidth, 60);
+        let grd2 = ctx.createLinearGradient(0, MyConstants.BeginY, 0, MyConstants.PicHeight);
+        grd2.addColorStop(1, '#FFFFFF');
+        ctx.fillStyle = grd2;
+        ctx.fillRect(0, 60, screenWidth, screenHeight - 60);
 
         ctx.fillStyle = "#000";
         ctx.fillRect(0, screenHeight - MyConstants.PicHeight -2 , screenWidth, 2);

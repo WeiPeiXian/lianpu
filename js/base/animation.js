@@ -1,39 +1,39 @@
 import Sprite  from './sprite'
 import DataBus from '../databus'
 
-let databus = new DataBus()
+let databus = new DataBus();
 
 const __ = {
   timer: Symbol('timer'),
-}
+};
 
 /**
  * 简易的帧动画类实现
  */
 export default class Animation extends Sprite {
   constructor(imgSrc, width, height) {
-    super(imgSrc, width, height)
+    super(imgSrc, width, height);
 
     // 当前动画是否播放中
-    this.isPlaying = false
+    this.isPlaying = false;
 
     // 动画是否需要循环播放
-    this.loop = false
+    this.loop = false;
 
     // 每一帧的时间间隔
-    this.interval = 1000 / 60
+    this.interval = 1000 / 60;
 
     // 帧定时器
-    this[__.timer] = null
+    this[__.timer] = null;
 
     // 当前播放的帧
-    this.index = -1
+    this.index = -1;
 
     // 总帧数
-    this.count = 0
+    this.count = 0;
 
     // 帧图片集合
-    this.imgList = []
+    this.imgList = [];
 
     /**
      * 推入到全局动画池里面
@@ -48,11 +48,11 @@ export default class Animation extends Sprite {
    */
   initFrames(imgList) {
     imgList.forEach((imgSrc) => {
-      let img = new Image()
-      img.src = imgSrc
+      let img = new Image();
+      img.src = imgSrc;
 
       this.imgList.push(img)
-    })
+    });
 
     this.count = imgList.length
   }
@@ -71,12 +71,12 @@ export default class Animation extends Sprite {
   // 播放预定的帧动画
   playAnimation(index = 0, loop = false) {
     // 动画播放的时候精灵图不再展示，播放帧动画的具体帧
-    this.visible   = false
+    this.visible   = false;
 
-    this.isPlaying = true
-    this.loop      = loop
+    this.isPlaying = true;
+    this.loop      = loop;
 
-    this.index     = index
+    this.index     = index;
 
     if ( this.interval > 0 && this.count ) {
       this[__.timer] = setInterval(
@@ -88,7 +88,7 @@ export default class Animation extends Sprite {
 
   // 停止帧动画播放
   stop() {
-    this.isPlaying = false
+    this.isPlaying = false;
 
     if ( this[__.timer] )
       clearInterval(this[__.timer])
@@ -96,7 +96,7 @@ export default class Animation extends Sprite {
 
   // 帧遍历
   frameLoop() {
-    this.index++
+    this.index++;
 
     if ( this.index > this.count - 1 ) {
       if ( this.loop ) {
@@ -104,7 +104,7 @@ export default class Animation extends Sprite {
       }
 
       else {
-        this.index--
+        this.index--;
         this.stop()
       }
     }

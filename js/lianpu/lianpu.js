@@ -9,11 +9,11 @@ export default class LianPu extends Sprite {
     constructor(parameters) {
         let {src, row, column} = parameters;
         const ram = util.getStart(row, column);
-        super(src, pictureWidth, pictureHeigth,ram[0],ram[1]);
+        super(src, pictureWidth, pictureHeigth, ram[0], ram[1]);
         this.row = row;
-        this.src = src;
         this.reset()
     }
+
     reset() {
         const rad = util.random(1, 8);
         this.data = rad;
@@ -22,7 +22,7 @@ export default class LianPu extends Sprite {
         this.touched = false;
         this.showback = false;
         //休息两秒时设置
-        this.sleep = false;
+        this.show = true;
         return rad;
     }
 
@@ -35,6 +35,17 @@ export default class LianPu extends Sprite {
         if (this.row === 5) {
             this.showback = false
         }
+    }
+
+    sleep(seconds) {
+        this.show = false;
+        const start = new Date().getTime();
+        while (true) {
+            if ((new Date().getTime() - start) / 1000 > seconds) {
+                break;
+            }
+        }
+        this.show = true;
     }
 
 

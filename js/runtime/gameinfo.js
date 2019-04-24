@@ -1,48 +1,48 @@
-const screenWidth = window.innerWidth
-const screenHeight = window.innerHeight
+const screenWidth = window.innerWidth;
+const screenHeight = window.innerHeight;
 
-let atlas = new Image()
-atlas.src = 'images/common.jpg'
+let atlas = new Image();
+atlas.src = 'images/common.jpg';
 
 export default class GameInfo {
     renderGameScore(ctx, score, time) {
-        ctx.fillStyle = "#333333"
-        ctx.font = "20px Arial"
+        ctx.fillStyle = "#333333";
+        ctx.font = "20px Arial";
         ctx.fillText(
             "score : " + score,
             10,
             30
-        )
+        );
 
-        ctx.fillStyle = "#333333"
-        ctx.font = "20px Arial"
+        ctx.fillStyle = "#333333";
+        ctx.font = "20px Arial";
         ctx.fillText(
             "剩余实间 : ",
             0.75 * screenWidth - 140,
             50
-        )
+        );
         ctx.fillStyle = "#FF6100";
         ctx.fillRect(0.75 * screenWidth, 40 , 0.2 * screenWidth * time / 30 , 10);
 
     }
 
     renderGameOver(ctx, score) {
-        ctx.drawImage(atlas, 0, 0, 119, 108, screenWidth / 2 - 150, screenHeight / 2 - 100, 300, 300)
+        ctx.drawImage(atlas, 0, 0, 119, 108, screenWidth / 2 - 150, screenHeight / 2 - 100, 300, 300);
 
-        ctx.fillStyle = "#ffffff"
-        ctx.font = "20px Arial"
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "20px Arial";
 
         ctx.fillText(
             '游戏结束',
             screenWidth / 2 - 40,
             screenHeight / 2 - 100 + 50
-        )
+        );
 
         ctx.fillText(
             '得分: ' + score,
             screenWidth / 2 - 40,
             screenHeight / 2 - 100 + 130
-        )
+        );
 
         ctx.drawImage(
             atlas,
@@ -50,13 +50,13 @@ export default class GameInfo {
             screenWidth / 2 - 60,
             screenHeight / 2 - 100 + 180,
             120, 40
-        )
+        );
 
         ctx.fillText(
             '重新开始',
             screenWidth / 2 - 40,
             screenHeight / 2 - 100 + 205
-        )
+        );
 
         /**
          * 重新开始按钮区域
