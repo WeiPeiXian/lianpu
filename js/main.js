@@ -60,7 +60,7 @@ export default class Main {
         )
     }
 
-    static onTouch(x, y) {
+    onTouch(x, y) {
         let oldLianpu = databus.pool.getLianPuBylocation(oldrow, oldcolumn);
         let location = util.getRC(x, y);
         let row = location[0];
@@ -94,7 +94,7 @@ export default class Main {
         }
     }
 
-    static setback(row, column) {
+    setback(row, column) {
         const newTime = new Date().getTime() / 1000;
         if (row > 0) {
             databus.pool.getLianPuBylocation(row - 1, column).time = newTime
