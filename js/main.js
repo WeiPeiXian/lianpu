@@ -29,9 +29,6 @@ export default class Main {
         oldValue = 100;
         console.log("start game");
         databus.reset();
-        for (let i = 0; i < 6; i++) {
-            databus.daixiao[i] = databus.pool.getLianPuBylocation(5, i).value;
-        }
         wx.onTouchStart(function (e) {
             let x = e.touches[0].clientX;
             let y = e.touches[0].clientY;
@@ -65,7 +62,7 @@ export default class Main {
         let row = location[0];
         let column = location[1];
         let lianpu = databus.pool.getLianPuBylocation(row, column);
-        if (lianpu.row !== 5 && !lianpu.showback) {
+        if (lianpu.row !== 5 && lianpu.showback) {
             for (let i = 0; i < 6; i++) {
                 if (databus.daixiao[i] === lianpu.data) {
                     lianpu.sleep(2);
