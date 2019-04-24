@@ -36,6 +36,7 @@ export default class Main {
                 instance.onTouch(x, y)
             }
         });
+        this.needrefresh = true;
         canvas.removeEventListener(
             'touchstart',
             this.touchHandler
@@ -70,12 +71,12 @@ export default class Main {
                     instance.setback(row,column);
                     databus.time += 2;
                     databus.score ++;
-                    databus.daixiao[i] = databus.pool.getLianPuBylocation(5, i).reset();
+                    databus.pool.getLianPuBylocation(5, i).reset();
                     break;
                 }
             }
         }
-
+        this.needrefresh = true
     }
 
     setback(row, column) {
@@ -99,7 +100,7 @@ export default class Main {
     // 游戏结束后的触摸事件处理逻辑
     touchEventHandler(e) {
         e.preventDefault();
-
+        this.needrefresh = true
         let x = e.touches[0].clientX;
         let y = e.touches[0].clientY;
 
@@ -124,11 +125,13 @@ export default class Main {
             lianpu.draw(ctx);
         });
 
-        const lastTime = 30 + databus.time - new Date().getTime() / 1000;
+        const lastTime = 40 + databus.time - new Date().getTime() / 1000;
         if (lastTime <= 0) {
             databus.gameOver = true
+        } else if (lastTime >=30) {
+            this.gameinfo.renderGameScore(ctx, databus.score)
         } else {
-            this.gameinfo.renderGameScore(ctx, databus.score, lastTime)
+            this.gameinfo.renderGameScore(ctx,databus.score, data)
         }
         // 游戏结束停止帧循环
         if (databus.gameOver) {
@@ -141,13 +144,22 @@ export default class Main {
         }
     }
 
+    update(){
+        if (new Date().getTime() % 1000 === 0) {
+            this.needrefresh = true;
+        }
+    }
 
     // 实现游戏帧循环
     loop() {
-        this.render();
-        this.aniId = window.requestAnimationFrame(
-            this.bindLoop,
-            canvas
-        )
+        this.update()
+        if (this.needrefresh) {
+            this.render();
+            this.aniId = window.requestAnimationFrame(
+                this.bindLoop,
+                canvas
+            );
+            this.needrefresh = false;
+        }
     }
 }

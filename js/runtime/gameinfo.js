@@ -5,7 +5,7 @@ let atlas = new Image();
 atlas.src = 'images/common.jpg';
 
 export default class GameInfo {
-    renderGameScore(ctx, score, time) {
+    renderGameScore(ctx, score,time = 30) {
         ctx.fillStyle = "#333333";
         ctx.font = "20px Arial";
         ctx.fillText(

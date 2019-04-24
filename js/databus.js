@@ -22,9 +22,7 @@ export default class DataBus {
             for (let column = 0; column < 6; column++) {
                 let x = util.random(1, 8);
                 let src = "images/lianpu-" + x + ".jpg";
-                let lianpu = new LianPu({src: src, row: row, column: column}, x);
-                this.pool.setLianPu(row, column,lianpu);
-                this.lianpus.push(lianpu)
+                new LianPu({src: src, row: row, column: column}, x);
             }
         }
     }

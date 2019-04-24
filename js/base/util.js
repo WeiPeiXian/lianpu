@@ -9,6 +9,7 @@ export default class Util {
             return instance;
         instance = this;
     }
+
     getStart = function (row, column) {
         let x = column * (2 + pictureWidth);
         let y = 60 + row * (2 + pictureHeigth);
@@ -27,9 +28,17 @@ export default class Util {
         let rand = Math.random() * (end - start) + start;
         let value = Math.floor(rand);
         if (value === oldvalue) {
-            return instance.random(start,end,oldvalue)
+            return instance.random(start, end, oldvalue)
         }
         return Math.floor(rand);
+    };
+    sleep = function (seconds) {
+        const start = new Date().getTime();
+        while (true) {
+            if ((new Date().getTime() - start) / 1000 > seconds) {
+                break;
+            }
+        }
     };
 }
 

@@ -1,9 +1,11 @@
-import Sprite from '../base/sprite'
 import Util from '../base/util'
+import DataBus from "../databus";
+import Sprite from "../base/sprite";
 
 const pictureWidth = (window.innerWidth - 10) / 6;
 const pictureHeigth = (window.innerHeight - 70) / 6;
 
+let databus = new DataBus();
 let util = new Util();
 export default class LianPu extends Sprite {
     constructor(parameters) {
@@ -12,7 +14,10 @@ export default class LianPu extends Sprite {
         super(src, pictureWidth, pictureHeigth, ram[0], ram[1]);
         this.row = row;
         this.column = column;
-        this.reset()
+        this.reset();
+        databus.lianpus.push(this);
+        databus.pool.setLianPu(row, column,this);
+
     }
 
     reset() {
@@ -23,9 +28,16 @@ export default class LianPu extends Sprite {
         this.touched = false;
         this.showback = false;
         //休息两秒时设置
+        this.visible = true;
         this.needShow = true;
-        return rad;
+        if (this.row === 5) {
+            databus.daixiao[this.column] = rad;
+        }
     }
+
+    // showAni() {
+    //     this.needShow = true
+    // }
 
     //更新是否展示，能否点击的逻辑
     update() {
