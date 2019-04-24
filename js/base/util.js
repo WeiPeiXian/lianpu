@@ -21,7 +21,7 @@ export default class Util {
         return [row, column]
     };
 
-    static random = function (start, end, oldvalue = 0) {
+    random = function (start, end, oldvalue = 0) {
         start = start === void 0 ? 0 : start;
         end = end === void 0 ? 1 : end;
         let rand = Math.random() * (end - start) + start;
