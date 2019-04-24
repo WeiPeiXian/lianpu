@@ -11,6 +11,7 @@ export default class LianPu extends Sprite {
         const ram = util.getStart(row, column);
         super(src, pictureWidth, pictureHeigth, ram[0], ram[1]);
         this.row = row;
+        this.column = column;
         this.reset()
     }
 
@@ -22,7 +23,7 @@ export default class LianPu extends Sprite {
         this.touched = false;
         this.showback = false;
         //休息两秒时设置
-        this.show = true;
+        this.needShow = true;
         return rad;
     }
 
@@ -38,14 +39,14 @@ export default class LianPu extends Sprite {
     }
 
     sleep(seconds) {
-        this.show = false;
+        this.needShow = false;
         const start = new Date().getTime();
         while (true) {
             if ((new Date().getTime() - start) / 1000 > seconds) {
                 break;
             }
         }
-        this.show = true;
+        this.needShow = true;
     }
 
 
@@ -56,7 +57,7 @@ export default class LianPu extends Sprite {
         } else {
             this.img.src = "images/lianpu-" + this.data + ".jpg"
         }
-        if (!this.sleep) {
+        if (this.needShow) {
             this.drawToCanvas(ctx)
         }
     }

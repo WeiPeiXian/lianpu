@@ -61,37 +61,23 @@ export default class Main {
     }
 
     onTouch(x, y) {
-        let oldLianpu = databus.pool.getLianPuBylocation(oldrow, oldcolumn);
         let location = util.getRC(x, y);
         let row = location[0];
         let column = location[1];
         let lianpu = databus.pool.getLianPuBylocation(row, column);
-        if (oldrow !== 100) {
+        if (lianpu.row !== 5 && !lianpu.showback) {
+            for (let i = 0; i < 6; i++) {
+                if (databus.daixiao[i] === lianpu.data) {
+                    lianpu.sleep(2);
+                    lianpu.reset();
+                    instance.setback(row,column);
+                    databus.time -= 2;
+                    databus.daixiao[i] = databus.pool.getLianPuBylocation(5, i).reset();
+                    break;
+                }
+            }
         }
-        let data = lianpu.data;
-        if (oldrow === row && oldcolumn === column) {
-            oldrow = 100;
-            oldcolumn = 100;
-            oldValue = 100;
-            databus.touchcolumn = 100;
-            databus.touchrow = 100
-        } else if (data === oldValue) {
-            databus.touchcolumn = 100;
-            databus.touchrow = 100;
-            lianpu.reset();
-            oldLianpu.data = util.random(1, 8, oldValue);
-            databus.score++;
-            instance.setback(row, column);
-            oldrow = 100;
-            oldcolumn = 100;
-            oldValue = 100
-        } else {
-            oldrow = row;
-            oldcolumn = column;
-            oldValue = data;
-            databus.touchcolumn = row;
-            databus.touchrow = column
-        }
+
     }
 
     setback(row, column) {

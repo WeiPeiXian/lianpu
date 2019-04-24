@@ -33,7 +33,10 @@ export default class DataBus {
         this.time = new Date().getTime() / 1000;
         this.score = 0;
         this.lianpus.forEach((lianpu) => {
-            lianpu.reset()
+            let data = lianpu.reset();
+            if (lianpu.row === 5) {
+                this.daixiao[lianpu.column] = data
+            }
         });
         this.touchrow = 100;
         this.touchcolumn = 100;
