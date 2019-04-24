@@ -3,9 +3,10 @@ import GameInfo from './runtime/gameinfo'
 import Music from './runtime/music'
 import DataBus from './databus'
 import Util from './base/util.js'
+import LianPu from "./lianpu/lianpu";
 
 let ctx = canvas.getContext('2d');
-let databus = new DataBus();
+let databus = new DataBus(ctx);
 let util = new Util();
 let oldValue = 100;
 let oldrow = 100;
@@ -20,6 +21,13 @@ export default class Main {
         // 维护当前requestAnimationFrame的id
         this.aniId = 0;
         instance = this;
+        for (let row = 0; row < 6; row++) {
+            for (let column = 0; column < 6; column++) {
+                let x = util.random(1, 8);
+                let src = "images/lianpu-" + x + ".jpg";
+                new LianPu({src: src, row: row, column: column}, x);
+            }
+        }
         this.restart()
     }
 
@@ -68,9 +76,9 @@ export default class Main {
                 if (databus.daixiao[i] === lianpu.data) {
                     // lianpu.sleep(2);
                     lianpu.reset();
-                    instance.setback(row,column);
+                    instance.setback(row, column);
                     databus.time += 2;
-                    databus.score ++;
+                    databus.score++;
                     databus.pool.getLianPuBylocation(5, i).reset();
                     break;
                 }
@@ -118,20 +126,15 @@ export default class Main {
      * 每一帧重新绘制所有的需要展示的元素
      */
     render() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        this.bg.render(ctx, databus.touchrow, databus.touchcolumn);
-
-        databus.lianpus.forEach((lianpu) => {
-            lianpu.draw(ctx);
-        });
-
+        ctx.clearRect(0, 0, canvas.width, 60); //清空画布
+        this.bg.render(ctx);
         const lastTime = 40 + databus.time - new Date().getTime() / 1000;
         if (lastTime <= 0) {
             databus.gameOver = true
-        } else if (lastTime >=30) {
+        } else if (lastTime >= 30) {
             this.gameinfo.renderGameScore(ctx, databus.score)
         } else {
-            this.gameinfo.renderGameScore(ctx,databus.score, data)
+            this.gameinfo.renderGameScore(ctx, databus.score, lastTime)
         }
         // 游戏结束停止帧循环
         if (databus.gameOver) {
@@ -144,7 +147,7 @@ export default class Main {
         }
     }
 
-    update(){
+    update() {
         if (new Date().getTime() % 1000 === 0) {
             this.needrefresh = true;
         }
@@ -153,13 +156,10 @@ export default class Main {
     // 实现游戏帧循环
     loop() {
         this.update()
-        if (this.needrefresh) {
-            this.render();
-            this.aniId = window.requestAnimationFrame(
-                this.bindLoop,
-                canvas
-            );
-            this.needrefresh = false;
-        }
+        this.render();
+        this.aniId = window.requestAnimationFrame(
+            this.bindLoop,
+            canvas
+        );
     }
 }
