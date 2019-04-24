@@ -11,6 +11,8 @@
 	"libVersion": "1.9.94",
 	"appid": "wx3f5ef891c33fc997",
 	"projectname": "lianpu",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,

@@ -65,10 +65,11 @@ export default class Main {
         if (lianpu.row !== 5 && lianpu.showback) {
             for (let i = 0; i < 6; i++) {
                 if (databus.daixiao[i] === lianpu.data) {
-                    lianpu.sleep(2);
+                    // lianpu.sleep(2);
                     lianpu.reset();
                     instance.setback(row,column);
-                    databus.time -= 2;
+                    databus.time += 2;
+                    databus.score ++;
                     databus.daixiao[i] = databus.pool.getLianPuBylocation(5, i).reset();
                     break;
                 }
