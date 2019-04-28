@@ -21,10 +21,8 @@ export default class Main {
         this.aniId = 0;
         instance = this;
         for (let row = 0; row < 6; row++) {
-            for (let column = 0; column < 6; column++) {
-                let x = util.random(1, 8);
-                let src = "images/lianpu-" + x + ".jpg";
-                new LianPu({src: src, row: row, column: column}, x);
+            for (let column = 0; column < 5; column++) {
+                new LianPu({row: row, column: column}, x);
             }
         }
         this.touchHandler = this.touchEventHandler.bind(this);

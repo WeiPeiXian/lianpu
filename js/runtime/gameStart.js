@@ -1,12 +1,12 @@
+import Sprite from '../base/sprite'
+
 const screenWidth = window.innerWidth;
 const screenHeight = window.innerHeight;
 
 const BG_IMG_SRC = 'images/bg1.png';
-const BG2_IMG_SRC = 'images/game.png';
+const BG2_IMG_SRC = 'images/bg2.png';
 const WIDTH = 375;  // 默认的iphone 6屏幕宽
 const HEIGHT = 667; // 默认的iphone 6 屏幕高
-const gameWidth = 300 * screenWidth/WIDTH;
-const gameHeight = 485 * screenWidth/WIDTH;
 /**
  * 游戏背景类
  * 提供update和render函数实现无限滚动的背景功能
@@ -19,7 +19,7 @@ const MyConstants = {
     BeginY: screenHeight - screenWidth * HEIGHT / WIDTH, //开始画图的y坐标
 };
 let instance;
-export default class BackGround{
+export default class GameStart{
     constructor(ctx) {
         if (instance) {
             return instance
@@ -56,8 +56,8 @@ export default class BackGround{
         }
         ctx.drawImage(
             bg2,
-            screenWidth/2 - gameWidth/2,
-            MyConstants.BeginY + MyConstants.BGHeight/2 - gameHeight/2,
+            0,
+            MyConstants.BeginY,
             MyConstants.BGWidth,
             MyConstants.BGHeight
         );

@@ -1,8 +1,8 @@
 import Util from '../base/util'
 import DataBus from "../databus";
 
-const pictureWidth = (window.innerWidth - 10) / 6;
-const pictureHeigth = (window.innerHeight - 70) / 6;
+const pictureWidth = 60 * window.innerWidth / 375;
+const pictureHeigth = 80 * window.innerWidth / 375;
 
 let databus = new DataBus();
 let util = new Util();
@@ -11,16 +11,15 @@ let util = new Util();
 
 export default class LianPu {
     constructor(parameters) {
-        let {src, row, column} = parameters;
-        const ram = util.getStart(row, column);
+        let {row, column} = parameters;
+        const ram = util.getCenter(row, column);
         this.row = row;
-        this.x = ram[0];
-        this.y = ram[1];
         this.column = column;
+        this.x = ram[0] - pictureWidth/2;
+        this.y = ram[1] - pictureHeigth/2;
         this.reset();
         databus.lianpus.push(this);
         databus.pool.setLianPu(row, column, this);
-
     }
 
     reset() {
