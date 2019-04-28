@@ -5,14 +5,13 @@ import DataBus from './databus'
 import Util from './base/util.js'
 import LianPu from "./lianpu/lianpu";
 
-let ctx = canvas.getContext('2d');
-let databus = new DataBus(ctx);
+let databus = new DataBus();
 let util = new Util();
 let oldValue = 100;
 let oldrow = 100;
 let oldcolumn = 100;
 let instance;
-
+let lastTime
 /**
  * 游戏主函数
  */
@@ -28,64 +27,57 @@ export default class Main {
                 new LianPu({src: src, row: row, column: column}, x);
             }
         }
+        this.touchHandler = this.touchEventHandler.bind(this);
+        canvas.addEventListener('touchstart', this.touchHandler)
         this.restart()
     }
 
     restart() {
+        window.cancelAnimationFrame(this.aniId);
         oldrow = 100;
         oldcolumn = 100;
         oldValue = 100;
         console.log("start game");
-        databus.reset();
-        wx.onTouchStart(function (e) {
-            let x = e.touches[0].clientX;
-            let y = e.touches[0].clientY;
-            if (y > 60 && !databus.gameOver) {
-                instance.onTouch(x, y)
-            }
-        });
-        this.needrefresh = true;
-        canvas.removeEventListener(
-            'touchstart',
-            this.touchHandler
-        );
-
-        this.bg = new BackGround(ctx);
         this.gameinfo = new GameInfo();
-        this.music = new Music();
-
-        this.bindLoop = this.loop.bind(this);
-        this.hasEventBind = false;
-
-        // 清除上一局的动画
-        window.cancelAnimationFrame(this.aniId);
-
+        this.bindLoop = this.loop.bind(this,);
+        new Music();
         this.aniId = window.requestAnimationFrame(
             this.bindLoop,
             canvas
-        )
+        );
+        this.bg = new BackGround(databus.ctx);
+
+        databus.reset();
+        util.sleep(1)
     }
+
 
     onTouch(x, y) {
         let location = util.getRC(x, y);
         let row = location[0];
         let column = location[1];
         let lianpu = databus.pool.getLianPuBylocation(row, column);
-        if (lianpu.row !== 5 && lianpu.showback) {
+        if (lianpu.row !== 5) {
             for (let i = 0; i < 6; i++) {
                 if (databus.daixiao[i] === lianpu.data) {
                     // lianpu.sleep(2);
-                    lianpu.reset();
+                    console.log(i);
+                    databus.daixiao[i] = lianpu.reset();
+                    lianpu.draw(databus.ctx);
                     instance.setback(row, column);
-                    databus.time += 2;
+                    if (lastTime < 28) {
+                        databus.time += 2;
+                    }
                     databus.score++;
-                    databus.pool.getLianPuBylocation(5, i).reset();
+                    let lian = databus.pool.getLianPuBylocation(5, i);
+                    lian.reset();
+                    lian.draw(databus.ctx);
                     break;
                 }
             }
         }
-        this.needrefresh = true
     }
+
 
     setback(row, column) {
         const newTime = new Date().getTime() / 1000;
@@ -108,17 +100,22 @@ export default class Main {
     // 游戏结束后的触摸事件处理逻辑
     touchEventHandler(e) {
         e.preventDefault();
-        this.needrefresh = true
         let x = e.touches[0].clientX;
         let y = e.touches[0].clientY;
-
-        let area = this.gameinfo.btnArea;
-
-        if (x >= area.startX
-            && x <= area.endX
-            && y >= area.startY
-            && y <= area.endY)
-            this.restart()
+        if (!databus.gameOver) {
+            let x = e.touches[0].clientX;
+            let y = e.touches[0].clientY;
+            if (y > 60) {
+                instance.onTouch(x, y)
+            }
+        } else {
+            let area = this.gameinfo.btnArea;
+            if (x >= area.startX
+                && x <= area.endX
+                && y >= area.startY
+                && y <= area.endY)
+                this.restart()
+        }
     }
 
     /**
@@ -126,24 +123,24 @@ export default class Main {
      * 每一帧重新绘制所有的需要展示的元素
      */
     render() {
-        ctx.clearRect(0, 0, canvas.width, 60); //清空画布
-        this.bg.render(ctx);
-        const lastTime = 40 + databus.time - new Date().getTime() / 1000;
+        databus.ctx.clearRect(0, 0, canvas.width, canvas.height)
+        this.bg.render(databus.ctx)
+        databus.lianpus.forEach((lianpu)=>{
+            lianpu.draw(databus.ctx)
+        });
+        lastTime = 40 + databus.time - new Date().getTime() / 1000;
         if (lastTime <= 0) {
-            databus.gameOver = true
+            databus.gameOver = true;
+            this.gameinfo.renderGameScore(databus.ctx, databus.score, 0)
         } else if (lastTime >= 30) {
-            this.gameinfo.renderGameScore(ctx, databus.score)
+            // databus.redraw();
+            this.gameinfo.renderGameScore(databus.ctx, databus.score)
         } else {
-            this.gameinfo.renderGameScore(ctx, databus.score, lastTime)
+            this.gameinfo.renderGameScore(databus.ctx, databus.score, lastTime)
         }
         // 游戏结束停止帧循环
         if (databus.gameOver) {
-            this.gameinfo.renderGameOver(ctx, databus.score);
-            if (!this.hasEventBind) {
-                this.hasEventBind = true;
-                this.touchHandler = this.touchEventHandler.bind(this);
-                canvas.addEventListener('touchstart', this.touchHandler)
-            }
+            this.gameinfo.renderGameOver(databus.ctx, databus.score);
         }
     }
 
@@ -155,8 +152,9 @@ export default class Main {
 
     // 实现游戏帧循环
     loop() {
-        this.update()
+        this.update();
         this.render();
+
         this.aniId = window.requestAnimationFrame(
             this.bindLoop,
             canvas
