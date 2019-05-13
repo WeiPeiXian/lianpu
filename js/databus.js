@@ -18,7 +18,7 @@ export default class DataBus {
             this.imgs[i] = new Image();
             this.imgs[i].src = "images/lianpu-back-" + (i-8) + ".png";
         }
-        this.ctx = ctx
+        this.ctx = ctx;
         this.pool = new Pool();
         this.lianpus = [];
         this.daixiao = {};
@@ -36,6 +36,7 @@ export default class DataBus {
                 this.daixiao[lianpu.column] = lianpu.data
             }
         });
+        this.gameStart = false;
         this.gameOver = false
     }
 
